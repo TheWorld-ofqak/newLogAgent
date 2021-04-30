@@ -1,22 +1,19 @@
-package io.promagent.core;
+package com.log.core;
 
 
 import com.alibaba.fastjson.JSONObject;
-import io.promagent.entity.HttpRequest;
-import io.promagent.entity.LogObject;
-import io.promagent.entity.Method;
+import com.log.entity.HttpRequest;
+import com.log.entity.LogObject;
+import com.log.entity.Method;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.print.attribute.standard.JobSheets;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Queue;
 
-import static io.promagent.utils.HttpRequestUtils.getHeaders;
-import static io.promagent.utils.HttpRequestUtils.getParams;
+import static com.log.utils.HttpRequestUtils.getHeaders;
+import static com.log.utils.HttpRequestUtils.getParams;
 
 /**
  * @Descriptio 用于要打出来日志的日志代理   日志实体类的代理类，对日志进行打印

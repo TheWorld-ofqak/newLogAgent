@@ -1,9 +1,9 @@
-package io.promagent;
+package com.log;
 
 
-import io.promagent.core.LogObjectProxy;
-import io.promagent.enums.TypeEnum;
-import io.promagent.utils.MethodUtils;
+import com.log.core.LogObjectProxy;
+import com.log.enums.TypeEnum;
+import com.log.utils.MethodUtils;
 
 import java.lang.reflect.Method;
 

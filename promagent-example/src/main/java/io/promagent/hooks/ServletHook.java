@@ -21,12 +21,15 @@ import io.promagent.hookcontext.MetricDef;
 import io.promagent.hookcontext.MetricsStore;
 import io.prometheus.client.Counter;
 import io.prometheus.client.Summary;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.concurrent.TimeUnit;
+
 
 import static io.promagent.hooks.HttpContext.HTTP_METHOD;
 import static io.promagent.hooks.HttpContext.HTTP_PATH;
@@ -40,6 +43,9 @@ public class ServletHook {
     private final Counter httpRequestsTotal;
     private final Summary httpRequestsDuration;
     private long startTime = 0;
+
+    private static Logger logger = LoggerFactory.getLogger("ServletHook");
+
 
     public ServletHook(MetricsStore metricsStore) {
 
@@ -110,8 +116,9 @@ public class ServletHook {
                 double duration = ((double) System.nanoTime() - startTime) / (double) TimeUnit.SECONDS.toNanos(1L);
                 String method = HttpContext.get(HTTP_METHOD).get();
                 String path = HttpContext.get(HTTP_PATH).get();
-                httpRequestsTotal.labels(method, path, Integer.toString(resp.getStatus())).inc();
-                httpRequestsDuration.labels(method, path, Integer.toString(resp.getStatus())).observe(duration);
+                logger.info("method :{}, path: {} ",method ,path );
+//                httpRequestsTotal.labels(method, path, Integer.toString(resp.getStatus())).inc();
+//                httpRequestsDuration.labels(method, path, Integer.toString(resp.getStatus())).observe(duration);
             } finally {
                 HttpContext.clear(HTTP_METHOD, HTTP_PATH);
             }

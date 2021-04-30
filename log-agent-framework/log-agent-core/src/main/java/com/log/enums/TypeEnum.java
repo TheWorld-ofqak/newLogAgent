@@ -1,4 +1,4 @@
-package io.promagent.enums;
+package com.log.enums;
 
 public enum TypeEnum {
 

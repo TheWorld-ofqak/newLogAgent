@@ -1,4 +1,4 @@
-package io.promagent.utils;
+package com.log.utils;
 
 
 import java.util.UUID;

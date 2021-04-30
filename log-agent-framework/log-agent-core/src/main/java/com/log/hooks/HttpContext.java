@@ -1,4 +1,4 @@
-package io.promagent.hooks;
+package com.log.hooks;
 
 import java.util.HashMap;
 import java.util.Map;

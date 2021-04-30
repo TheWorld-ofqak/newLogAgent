@@ -1,19 +1,19 @@
-package io.promagent.hooks;
+package com.log.hooks;
 
 
-import io.promagent.Logger;
-import io.promagent.core.LogObjectProxy;
-import io.promagent.enums.TypeEnum;
+import com.log.core.LogObjectProxy;
+import com.log.Logger;
+import com.log.enums.TypeEnum;
 import io.promagent.annotations.After;
 import io.promagent.annotations.Before;
 import io.promagent.annotations.Hook;
 import io.promagent.annotations.Thrown;
-import io.promagent.utils.HttpRequestUtils;
+import com.log.utils.HttpRequestUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 
-import static io.promagent.enums.MethodSignConstants.*;
+import static com.log.enums.MethodSignConstants.*;
 
 @Hook(instruments = {
         "javax.servlet.Servlet",
@@ -23,6 +23,9 @@ public class HttpServletHook {
 
     @Before(method = {"service"})
     public void serviceBefore(ServletRequest request, ServletResponse response) {
+
+
+
         doBefore(request, response);
     }
 

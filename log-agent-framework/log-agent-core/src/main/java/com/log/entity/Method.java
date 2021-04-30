@@ -1,4 +1,4 @@
-package io.promagent.entity;
+package com.log.entity;
 
 
 import java.util.Arrays;

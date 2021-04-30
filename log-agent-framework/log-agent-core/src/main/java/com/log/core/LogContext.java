@@ -1,7 +1,7 @@
-package io.promagent.core;
+package com.log.core;
 
 
-import io.promagent.entity.LogObject;
+import com.log.entity.LogObject;
 
 /**
  * @Description

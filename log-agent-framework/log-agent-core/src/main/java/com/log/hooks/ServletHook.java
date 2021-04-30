@@ -12,15 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package io.promagent.hooks;
+package com.log.hooks;
 
 import io.promagent.annotations.After;
 import io.promagent.annotations.Before;
 import io.promagent.annotations.Hook;
-import io.promagent.hookcontext.MetricDef;
-import io.promagent.hookcontext.MetricsStore;
-import io.prometheus.client.Counter;
-import io.prometheus.client.Summary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,8 +26,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.concurrent.TimeUnit;
 
-import static io.promagent.hooks.HttpContext.HTTP_METHOD;
-import static io.promagent.hooks.HttpContext.HTTP_PATH;
+import static com.log.hooks.HttpContext.HTTP_METHOD;
+import static com.log.hooks.HttpContext.HTTP_PATH;
 
 @Hook(instruments = {
         "javax.servlet.Servlet",

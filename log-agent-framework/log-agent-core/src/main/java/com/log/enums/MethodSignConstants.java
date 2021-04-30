@@ -1,4 +1,4 @@
-package io.promagent.enums;
+package com.log.enums;
 
 /**
  * @description: 方法签名的枚举类

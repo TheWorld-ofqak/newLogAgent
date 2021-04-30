@@ -1,8 +1,8 @@
-package io.promagent.entity;
+package com.log.entity;
 
 
 import com.alibaba.fastjson.JSONObject;
-import io.promagent.enums.TypeEnum;
+import com.log.enums.TypeEnum;
 
 /**
  * @Description Log 实体对象
