@@ -32,8 +32,8 @@ class StaticFinalTest {
         SortedSet<HookMetadata> hookMetadata = Util.loadHookMetadata(StaticFinalTestHook.class);
         ClassLoaderCache classLoaderCache = Util.mockClassLoaderCache();
 
-        MetricsStore metricsStore = Util.mockMetricsStore();
-        Delegator.init(hookMetadata, metricsStore, classLoaderCache);
+        //MetricsStore metricsStore = Util.mockMetricsStore();  , metricsStore
+        Delegator.init(hookMetadata, classLoaderCache);
         MethodCallCounter.reset();
 
         Map<String, SortedSet<HookMetadata.MethodSignature>> instruments = getInstruments(hookMetadata);

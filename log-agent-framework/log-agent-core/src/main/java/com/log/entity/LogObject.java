@@ -2,7 +2,8 @@ package com.log.entity;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.log.enums.TypeEnum;
+import com.log.constants.HookTypeEnum;
+import com.log.utils.MdcUtils;
 
 /**
  * @Description Log 实体对象
@@ -12,12 +13,12 @@ import com.log.enums.TypeEnum;
 public class LogObject {
 
 
-    // private  Long traceId;
-    private String type = TypeEnum.Normal.getDesc();
+    private Long traceId ;
+    private String type = HookTypeEnum.SERVLET.getDesc();
 
-    private HttpRequest httpRequest;
-    private Method method;
-    private JSONObject tempDate;
+    private HttpRequest httpRequest = new HttpRequest();
+    private Method method = new Method();
+    private JSONObject tempDate  = new JSONObject();
     private String msg;
 
     public String getMsg() {
@@ -28,13 +29,13 @@ public class LogObject {
         this.msg = msg;
     }
 
-//    public Long getTraceId() {
-//        return traceId;
-//    }
-//
-//    public void setTraceId(Long traceId) {
-//        this.traceId = traceId;
-//    }
+    public Long getTraceId() {
+        return traceId;
+    }
+
+    public void setTraceId(Long traceId) {
+        this.traceId = traceId;
+    }
 
     public String getType() {
         return type;
@@ -71,7 +72,7 @@ public class LogObject {
 
     public String getLogJSON() {
         JSONObject resultJson = new JSONObject();
-        //  resultJson.put("traceId",traceId);
+        resultJson.put("traceId", MdcUtils.getLogId());
         resultJson.put("type", type);
         resultJson.put("Request", httpRequest);
         resultJson.put("method", method);

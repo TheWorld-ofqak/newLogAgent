@@ -1,9 +1,9 @@
-package com.log.enums;
+package com.log.constants;
 
-public enum TypeEnum {
+public enum HookTypeEnum {
 
-    Normal(0, "Http请求"),
-    CREATE(1, "Httpclient构建的http请求"),
+    SERVLET(0, "Servlet: Http请求"),
+    HTTPCLIENT(1, "Httpclient: Http请求"),
     ASYNC(2, "异步请求"),
     DNS(3, "DNS的请求");
 
@@ -28,7 +28,7 @@ public enum TypeEnum {
         this.desc = desc;
     }
 
-    TypeEnum(Integer value, String desc) {
+    HookTypeEnum(Integer value, String desc) {
         this.value = value;
         this.desc = desc;
     }

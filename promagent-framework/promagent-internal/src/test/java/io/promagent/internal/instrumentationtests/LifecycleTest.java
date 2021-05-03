@@ -42,8 +42,8 @@ class LifecycleTest {
         );
         ClassLoaderCache classLoaderCache = Util.mockClassLoaderCache();
         parameterTypesExample = Instrumentor.instrument(ParameterTypesExample.class, hookMetadata);
-        MetricsStore metricsStore = Util.mockMetricsStore();
-        Delegator.init(hookMetadata, metricsStore, classLoaderCache);
+        //MetricsStore metricsStore = Util.mockMetricsStore();  metricsStore
+        Delegator.init(hookMetadata , classLoaderCache);
         MethodCallCounter.reset();
     }
 

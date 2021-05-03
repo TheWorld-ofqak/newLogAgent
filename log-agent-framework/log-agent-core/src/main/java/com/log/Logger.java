@@ -1,10 +1,11 @@
 package com.log;
 
 
+import com.log.constants.HookTypeEnum;
 import com.log.core.LogObjectProxy;
-import com.log.enums.TypeEnum;
 import com.log.utils.MethodUtils;
 
+import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 
 /**
@@ -20,7 +21,7 @@ public class Logger {
         try {
 
             String signature = MethodUtils.getSignature(method);
-            LogObjectProxy.setMethod(execTime, throwable, ret,signature , TypeEnum.Normal.name());
+            LogObjectProxy.setMethod(execTime, throwable, (HttpServletResponse) ret,signature , ret,HookTypeEnum.SERVLET.name());
 
             LogObjectProxy.doLog();
 

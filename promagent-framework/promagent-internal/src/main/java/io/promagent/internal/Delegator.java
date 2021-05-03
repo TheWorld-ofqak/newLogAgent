@@ -37,20 +37,25 @@ public class Delegator {
     private static Delegator instance; // not thread-safe, but it is set only once in the agent's premain method.
 
     private final SortedSet<HookMetadata> hookMetadata;
-    private final MetricsStore metricsStore;
+   // private final MetricsStore metricsStore;   记录去掉了 metrics的 构造属性
     private final ClassLoaderCache classLoaderCache;
     private final ThreadLocal<Map<Class<?>, Object>> threadLocal;
 
-    private Delegator(SortedSet<HookMetadata> hookMetadata, MetricsStore metricsStore, ClassLoaderCache classLoaderCache) {
+
+
+    public static void init(SortedSet<HookMetadata> hookMetadata, ClassLoaderCache classLoaderCache) {
+        instance = new Delegator(hookMetadata, classLoaderCache);
+    }
+
+
+    private Delegator(SortedSet<HookMetadata> hookMetadata, ClassLoaderCache classLoaderCache) {
         this.hookMetadata = hookMetadata;
-        this.metricsStore = metricsStore;
         this.classLoaderCache = classLoaderCache;
         this.threadLocal = ThreadLocal.withInitial(HashMap::new);
     }
 
-    public static void init(SortedSet<HookMetadata> hookMetadata, MetricsStore metricsStore, ClassLoaderCache classLoaderCache) {
-        instance = new Delegator(hookMetadata, metricsStore, classLoaderCache);
-    }
+
+
 
     /**
      * Should be called from the Advice's @OnMethodEnter method. Returns the list of Hooks to be passed on to after()
@@ -213,7 +218,8 @@ public class Delegator {
         } else {
             String errMsg = "Failed to create new instance of hook " + hookClass.getSimpleName() + ": ";
             try {
-                Object newHookInstance = hookClass.getConstructor(MetricsStore.class).newInstance(metricsStore);
+                Object newHookInstance = hookClass.getConstructor().newInstance();
+                //Object newHookInstance = hookClass.getConstructor(MetricsStore.class).newInstance(metricsStore);
                 threadLocal.get().put(hookClass, newHookInstance);
                 return new HookInstance(newHookInstance, false);
             } catch (NoSuchMethodException e) {

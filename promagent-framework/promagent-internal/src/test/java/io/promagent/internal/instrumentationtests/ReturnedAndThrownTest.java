@@ -41,8 +41,8 @@ class ReturnedAndThrownTest {
         );
         ClassLoaderCache classLoaderCache = Util.mockClassLoaderCache();
         returnedAndThrownExample = Instrumentor.instrument(ReturnedAndThrownExample.class, hookMetadata);
-        MetricsStore metricsStore = Util.mockMetricsStore();
-        Delegator.init(hookMetadata, metricsStore, classLoaderCache);
+       // MetricsStore metricsStore = Util.mockMetricsStore();metricsStore
+        Delegator.init(hookMetadata, classLoaderCache);
         MethodCallCounter.reset();
     }
 

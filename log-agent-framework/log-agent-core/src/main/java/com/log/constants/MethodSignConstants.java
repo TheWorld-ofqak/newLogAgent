@@ -1,4 +1,4 @@
-package com.log.enums;
+package com.log.constants;
 
 /**
  * @description: 方法签名的枚举类
@@ -13,6 +13,7 @@ public interface   MethodSignConstants {
     String FilterSign = "Filter.doFilter";
     String HttpServletSign = "HttpServlet.service";
     String RequestTimeStamp = "RequestTimeStamp";
+    String TraceId= "TraceId";
 
 
 }

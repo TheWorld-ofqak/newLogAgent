@@ -1,19 +1,21 @@
 package com.log.hooks;
 
 
+import com.log.constants.HookTypeEnum;
+
 import com.log.core.LogObjectProxy;
 import com.log.Logger;
-import com.log.enums.TypeEnum;
-import io.promagent.annotations.After;
-import io.promagent.annotations.Before;
-import io.promagent.annotations.Hook;
-import io.promagent.annotations.Thrown;
+import com.log.utils.MdcUtils;
+import io.promagent.annotations.*;
 import com.log.utils.HttpRequestUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import static com.log.enums.MethodSignConstants.*;
+import java.util.Objects;
+
+import static com.log.constants.MethodSignConstants.*;
 
 @Hook(instruments = {
         "javax.servlet.Servlet",
@@ -24,8 +26,6 @@ public class HttpServletHook {
     @Before(method = {"service"})
     public void serviceBefore(ServletRequest request, ServletResponse response) {
 
-
-
         doBefore(request, response);
     }
 
@@ -35,13 +35,13 @@ public class HttpServletHook {
     }
 
     @After(method = {"service"})
-    public void serviceAfter(ServletRequest request, ServletResponse response, @Thrown Throwable t) {
-        doAfter(request, response, t, HttpServletSign);
+    public void serviceAfter(ServletRequest request, ServletResponse response, @Returned Object returned , @Thrown Throwable t) {
+        doAfter(request, response,returned ,t, HttpServletSign);
     }
 
     @After(method = {"doFilter"})
-    public void serviceAfter(ServletRequest request, ServletResponse response, FilterChain chain, @Thrown Throwable t) {
-        doAfter(request, response, t, FilterSign);
+    public void serviceAfter(ServletRequest request, ServletResponse response, FilterChain chain, @Returned Object returned ,@Thrown Throwable t) {
+        doAfter(request, response, returned,t, FilterSign);
     }
 
 
@@ -49,9 +49,11 @@ public class HttpServletHook {
 
         try {
            if(HttpRequestUtils.isHttpServlet(httpRequest, httpResponse)){
-               HttpServletRequest request = (HttpServletRequest) httpRequest;
 
+               HttpServletRequest request = (HttpServletRequest) httpRequest;
+               MdcUtils.setLogId(request.getHeader(TraceId));
                long startTime = System.currentTimeMillis();
+
                LogObjectProxy.getTempDate().put(RequestTimeStamp,startTime);
                LogObjectProxy.setRequest(request);
            }
@@ -61,16 +63,19 @@ public class HttpServletHook {
     }
 
 
-    public void doAfter(ServletRequest httpRequest, ServletResponse httpResponse, Throwable t, String signature) {
+    public void doAfter(ServletRequest httpRequest, ServletResponse httpResponse ,Object returned ,Throwable t, String signature) {
 
 
         try {
             if(HttpRequestUtils.isHttpServlet(httpRequest, httpResponse)){
                 long endTime = System.currentTimeMillis();
-                long execTime = endTime - LogObjectProxy.getTempDate().getLongValue(RequestTimeStamp);;
-                String response = httpResponse.toString();
+                long execTime = endTime - LogObjectProxy.getTempDate().getLongValue(RequestTimeStamp);
 
-                LogObjectProxy.setMethod(execTime, t, response,signature, TypeEnum.Normal.name());
+                HttpServletRequest request = (HttpServletRequest) httpRequest;
+                HttpServletResponse response =   (HttpServletResponse)httpResponse;
+
+                LogObjectProxy.setRequest(request);
+                LogObjectProxy.setMethod(execTime, t, response,signature,returned, HookTypeEnum.SERVLET.name());
 
                 LogObjectProxy.doLog();
                 LogObjectProxy.clean();

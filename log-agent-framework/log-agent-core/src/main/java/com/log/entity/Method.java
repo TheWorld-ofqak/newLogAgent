@@ -13,8 +13,10 @@ public class Method {
 
     //方法名称
     private String methodSignature;
-    //执行结果
-    private Object returnResult;
+    //响应状态码
+    private int responseStatusCode;
+    //响应体
+    private String responseBody;
     //方法异常
     private Throwable methodThrow;
     //执行消耗的时间
@@ -35,6 +37,13 @@ public class Method {
         this.methodSignature = methodSignature;
     }
 
+    public String getResponseBody() {
+        return responseBody;
+    }
+
+    public void setResponseBody(String responseBody) {
+        this.responseBody = responseBody;
+    }
 
     public Long getExecTime() {
         return execTime;
@@ -44,12 +53,12 @@ public class Method {
         this.execTime = execTime;
     }
 
-    public Object getReturnResult() {
-        return returnResult;
+    public int getResponseStatusCode() {
+        return responseStatusCode;
     }
 
-    public void setReturnResult(Object returnResult) {
-        this.returnResult = returnResult;
+    public void setResponseStatusCode(int responseStatus) {
+        this.responseStatusCode = responseStatus;
     }
 
     public Throwable getMethodThrow() {
@@ -68,11 +77,13 @@ public class Method {
         this.type = type;
     }
 
+
     @Override
     public String toString() {
         return "Method{" +
                 "methodSignature='" + methodSignature + '\'' +
-                ", returnResult=" + returnResult +
+                ", responseStatusCode=" + responseStatusCode +
+                ", responseBody='" + responseBody + '\'' +
                 ", methodThrow=" + methodThrow +
                 ", execTime=" + execTime +
                 ", type='" + type + '\'' +

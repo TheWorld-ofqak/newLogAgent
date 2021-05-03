@@ -5,12 +5,18 @@ import com.alibaba.fastjson.JSONObject;
 import com.log.entity.HttpRequest;
 import com.log.entity.LogObject;
 import com.log.entity.Method;
+import com.log.utils.MethodUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.log.utils.HttpRequestUtils.getHeaders;
 import static com.log.utils.HttpRequestUtils.getParams;
@@ -26,36 +32,33 @@ public class LogObjectProxy {
     private static final Logger logger = LoggerFactory.getLogger(LogObjectProxy.class);
 
 
-    public static void setRequest(HttpServletRequest request) {
-
-        String requestUrl = request.getRequestURI();   // 得到url
-        Map<String, String> headers = getHeaders(request);
-        Map<String, String> params = getParams(request);
-
-        HttpRequest httpRequesT = new HttpRequest(requestUrl, headers, params);
-
+    public static void setRequest(HttpServletRequest request) throws UnsupportedEncodingException {
 
         LogObject currLogObject = LogContext.get();
-        currLogObject.setHttpRequest(httpRequesT);
+        HttpRequest httpRequest = currLogObject.getHttpRequest();
 
-    }
-
-    public static void setResponse(HttpServletResponse response) {
-
-
-        LogObject currLogObject = LogContext.get();
-        currLogObject.getHttpRequest().setResponseBody(response.toString());
-
+        if(Objects.isNull(httpRequest.getUrl())){ // 说明为前置aop
+            String requestUrl = request.getRequestURI();
+            Map<String, String> headers = getHeaders(request);
+            httpRequest.setUrl(requestUrl);
+            httpRequest.setHeader(headers);
+        }else {
+            Map<String, String> params = getParams(request);
+            httpRequest.setParams(params);
+        }
 
     }
 
 
-    public static void setMethod(Long execTime, Throwable error, Object ret, String sign, String type) {
+    public static void setMethod(Long execTime, Throwable error, HttpServletResponse response, String sign, Object returned, String type)  {
         Method method = LogContext.get().getMethod();
+        int responseStatusCode = MethodUtils.getResponseStatus(response);
+        //String responseBody = MethodUtils.getResponseBody(response);
 
         method.setMethodSignature(sign);
         method.setExecTime(execTime);
-        method.setReturnResult(ret);
+        method.setResponseStatusCode(responseStatusCode);
+        method.setResponseBody("响应体");
         method.setMethodThrow(error);
         method.setType(type);
     }

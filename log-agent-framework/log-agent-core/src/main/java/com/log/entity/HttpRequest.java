@@ -18,6 +18,10 @@ public class HttpRequest {
 
     private String responseBody;
 
+    public HttpRequest(String url, Map<String, String> header) {
+        this.header = header;
+        this.url = url;
+    }
 
     public HttpRequest(String url, Map<String, String> header, Map<String, String> params) {
         this.header = header;

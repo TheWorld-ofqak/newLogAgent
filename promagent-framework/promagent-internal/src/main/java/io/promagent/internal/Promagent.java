@@ -35,8 +35,9 @@ import java.util.TreeSet;
 import io.promagent.agent.ClassLoaderCache;
 import io.promagent.hookcontext.MetricsStore;
 import io.promagent.internal.HookMetadata.MethodSignature;
-import io.promagent.internal.jmx.Exporter;
-import io.promagent.internal.jmx.PromagentCollectorRegistry;
+//import io.promagent.internal.abandon.BuiltInServer;
+//import io.promagent.internal.abandon.jmx.Exporter;
+//import io.promagent.internal.abandon.jmx.PromagentCollectorRegistry;
 import net.bytebuddy.agent.builder.AgentBuilder;
 import net.bytebuddy.description.method.MethodDescription;
 import net.bytebuddy.matcher.ElementMatcher;
@@ -46,17 +47,19 @@ public class Promagent {
 
     public static void premain(String agentArgs, Instrumentation inst) {
         try {
-            PromagentCollectorRegistry registry = new PromagentCollectorRegistry();
-            ManagementFactory.getPlatformMBeanServer().registerMBean(new Exporter(registry), new ObjectName("io.promagent:type=exporter"));
-            Map<String, String> args = parseCmdline(agentArgs);
-            if (args.containsKey("port")) {
-                BuiltInServer.run(args.get("host"), args.get("port"), registry);
-            }
+//            PromagentCollectorRegistry registry = new PromagentCollectorRegistry();
+//            ManagementFactory.getPlatformMBeanServer().registerMBean(new Exporter(registry), new ObjectName("io.promagent:type=exporter"));
+//            Map<String, String> args = parseCmdline(agentArgs);
+//            if (args.containsKey("port")) {
+//                BuiltInServer.run(args.get("host"), args.get("port"), registry);
+//            }
             ClassLoaderCache classLoaderCache = ClassLoaderCache.getInstance();
             List<Path> hookJars = classLoaderCache.getPerDeploymentJars();
             SortedSet<HookMetadata> hookMetadata = new HookMetadataParser(hookJars).parse();
-            MetricsStore metricsStore = new MetricsStore(registry);
-            Delegator.init(hookMetadata, metricsStore, classLoaderCache);
+          //MetricsStore metricsStore = new MetricsStore(registry);
+            // Delegator.init(hookMetadata, metricsStore, classLoaderCache);
+
+            Delegator.init(hookMetadata, classLoaderCache);
             printHookMetadata(hookMetadata);
 
             AgentBuilder agentBuilder = new AgentBuilder.Default();
