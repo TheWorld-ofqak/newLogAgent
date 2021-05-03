@@ -1,9 +1,9 @@
-package com.log;
+package com.qak.log;
 
 
-import com.log.constants.HookTypeEnum;
-import com.log.core.LogObjectProxy;
-import com.log.utils.MethodUtils;
+import com.qak.log.constants.HookTypeEnum;
+import com.qak.log.core.LogObjectProxy;
+import com.qak.log.utils.MethodUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
@@ -16,12 +16,12 @@ import java.lang.reflect.Method;
 public class Logger {
 
     // 会被每个自定义的hook 去执行 第一次字节码增强 ，方法调用执行
-    public static void info(Long execTime, Throwable throwable, Object ret, Method method, Object args) {
+    public static void info(Long execTime, Object ret, Method method, Object[] args,Throwable throwable) {
 
         try {
 
             String signature = MethodUtils.getSignature(method);
-            LogObjectProxy.setMethod(execTime, throwable, (HttpServletResponse) ret,signature , ret,HookTypeEnum.SERVLET.name());
+            LogObjectProxy.setMethod(execTime, throwable, null,signature , args,ret,HookTypeEnum.SERVLET.name());
 
             LogObjectProxy.doLog();
 
@@ -34,12 +34,9 @@ public class Logger {
 
 
     public static void error(Throwable frameError) {
-        try {
-            frameError.printStackTrace();
+
             LogObjectProxy.error(frameError);
-        } catch (Throwable ignore) {
-            ignore.printStackTrace();
-        }
+
     }
 
 }

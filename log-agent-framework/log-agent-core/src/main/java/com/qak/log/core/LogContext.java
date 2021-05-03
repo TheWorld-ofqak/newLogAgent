@@ -1,7 +1,7 @@
-package com.log.core;
+package com.qak.log.core;
 
 
-import com.log.entity.LogObject;
+import com.qak.log.entity.LogObject;
 
 /**
  * @Description

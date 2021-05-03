@@ -1,4 +1,4 @@
-package com.log.entity;
+package com.qak.log.entity;
 
 
 import java.util.Map;

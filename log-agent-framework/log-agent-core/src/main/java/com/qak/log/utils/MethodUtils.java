@@ -1,4 +1,4 @@
-package com.log.utils;
+package com.qak.log.utils;
 
 
 import com.alibaba.fastjson.JSONObject;
@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.collections.CollectionUtils;
+
 /**
  * @Description aop方法的工具类
  * @Author ankangqi
@@ -60,7 +62,7 @@ public class MethodUtils {
 
     public static String getArgs(Object[] args) {
 
-        if (args == null) {
+        if (args == null || args.length == 0) {
             return "NULL";
         }
 
@@ -77,6 +79,9 @@ public class MethodUtils {
                 continue;
             }
             result.add(JSONObject.toJSONString(args[i]));
+        }
+        if (CollectionUtils.isEmpty(result)) {
+            return "null";
         }
 
         return JSONObject.toJSONString(result);

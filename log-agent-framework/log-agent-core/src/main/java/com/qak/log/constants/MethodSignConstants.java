@@ -1,4 +1,4 @@
-package com.log.constants;
+package com.qak.log.constants;
 
 /**
  * @description: 方法签名的枚举类

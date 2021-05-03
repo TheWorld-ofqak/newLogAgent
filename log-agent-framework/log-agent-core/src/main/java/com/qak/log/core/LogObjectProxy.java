@@ -1,25 +1,22 @@
-package com.log.core;
+package com.qak.log.core;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.log.entity.HttpRequest;
-import com.log.entity.LogObject;
-import com.log.entity.Method;
-import com.log.utils.MethodUtils;
+import com.qak.log.entity.HttpRequest;
+import com.qak.log.entity.LogObject;
+import com.qak.log.entity.Method;
+import com.qak.log.utils.MethodUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.log.utils.HttpRequestUtils.getHeaders;
-import static com.log.utils.HttpRequestUtils.getParams;
+import static com.qak.log.utils.HttpRequestUtils.getHeaders;
+import static com.qak.log.utils.HttpRequestUtils.getParams;
 
 /**
  * @Descriptio 用于要打出来日志的日志代理   日志实体类的代理类，对日志进行打印
@@ -50,15 +47,21 @@ public class LogObjectProxy {
     }
 
 
-    public static void setMethod(Long execTime, Throwable error, HttpServletResponse response, String sign, Object returned, String type)  {
+    public static void setMethod(Long execTime, Throwable error, HttpServletResponse response, String sign,Object[] args, Object returned, String type)  {
+
         Method method = LogContext.get().getMethod();
-        int responseStatusCode = MethodUtils.getResponseStatus(response);
+        String methodArgs = MethodUtils.getArgs(args);
+
+        int responseStatusCode = 0;
+        if(Objects.nonNull(response)){
+            responseStatusCode = MethodUtils.getResponseStatus(response);
+        }
         //String responseBody = MethodUtils.getResponseBody(response);
 
         method.setMethodSignature(sign);
+        method.setMethodArgs(methodArgs);
         method.setExecTime(execTime);
         method.setResponseStatusCode(responseStatusCode);
-        method.setResponseBody("响应体");
         method.setMethodThrow(error);
         method.setType(type);
     }

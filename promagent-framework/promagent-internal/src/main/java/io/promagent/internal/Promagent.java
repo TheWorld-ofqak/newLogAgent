@@ -38,6 +38,8 @@ import io.promagent.internal.HookMetadata.MethodSignature;
 //import io.promagent.internal.abandon.BuiltInServer;
 //import io.promagent.internal.abandon.jmx.Exporter;
 //import io.promagent.internal.abandon.jmx.PromagentCollectorRegistry;
+import io.promagent.internal.custom.CustomHooksUtils;
+import io.promagent.internal.load.AgentBootstrap;
 import net.bytebuddy.agent.builder.AgentBuilder;
 import net.bytebuddy.description.method.MethodDescription;
 import net.bytebuddy.matcher.ElementMatcher;
@@ -60,10 +62,14 @@ public class Promagent {
             // Delegator.init(hookMetadata, metricsStore, classLoaderCache);
 
             Delegator.init(hookMetadata, classLoaderCache);
+            AgentBootstrap agentBootstrap = new AgentBootstrap();
+            agentBootstrap.initSystemProperty();// 初始化自己的环境配置
             printHookMetadata(hookMetadata);
 
             AgentBuilder agentBuilder = new AgentBuilder.Default();
-            agentBuilder = applyHooks(agentBuilder, hookMetadata, classLoaderCache);
+            agentBuilder = CustomHooksUtils.applyHooks(agentBuilder,classLoaderCache); // 自己编写的 hook 横切
+            agentBuilder = applyHooks(agentBuilder, hookMetadata, classLoaderCache);// 系统中的的hook 信息
+
             agentBuilder
                     .disableClassFormatChanges()
                     // .with(AgentBuilder.Listener.StreamWriting.toSystemError()) // use this to see exceptions thrown in instrumented code

@@ -1,11 +1,12 @@
-package com.log.constants;
+package com.qak.log.constants;
 
 public enum HookTypeEnum {
 
     SERVLET(0, "Servlet: Http请求"),
     HTTPCLIENT(1, "Httpclient: Http请求"),
     ASYNC(2, "异步请求"),
-    DNS(3, "DNS的请求");
+    DNS(3, "DNS的请求"),
+    CUSTOM(4,"通用的请求");
 
 
     private Integer value;

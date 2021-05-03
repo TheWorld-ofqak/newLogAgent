@@ -1,4 +1,4 @@
-package com.log.utils;
+package com.qak.log.utils;
 
 
 import javax.servlet.ServletRequest;

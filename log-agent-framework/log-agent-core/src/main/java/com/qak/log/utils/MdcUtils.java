@@ -1,7 +1,7 @@
-package com.log.utils;
+package com.qak.log.utils;
 
 import com.fasterxml.uuid.Generators;
-import com.log.constants.MethodSignConstants;
+import com.qak.log.constants.MethodSignConstants;
 
 import org.slf4j.MDC;
 

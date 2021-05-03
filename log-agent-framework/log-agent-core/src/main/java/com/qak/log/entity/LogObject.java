@@ -1,9 +1,9 @@
-package com.log.entity;
+package com.qak.log.entity;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.log.constants.HookTypeEnum;
-import com.log.utils.MdcUtils;
+import com.qak.log.constants.HookTypeEnum;
+import com.qak.log.utils.MdcUtils;
 
 /**
  * @Description Log 实体对象
