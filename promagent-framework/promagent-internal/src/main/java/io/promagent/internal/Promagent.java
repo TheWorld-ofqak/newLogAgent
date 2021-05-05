@@ -72,7 +72,7 @@ public class Promagent {
 
             agentBuilder
                     .disableClassFormatChanges()
-                    // .with(AgentBuilder.Listener.StreamWriting.toSystemError()) // use this to see exceptions thrown in instrumented code
+                   // .with(AgentBuilder.Listener.StreamWriting.toSystemError()) // use this to see exceptions thrown in instrumented code
                     .with(AgentBuilder.RedefinitionStrategy.REDEFINITION)
                     .with(AgentBuilder.TypeStrategy.Default.REDEFINE)
                     .installOn(inst);

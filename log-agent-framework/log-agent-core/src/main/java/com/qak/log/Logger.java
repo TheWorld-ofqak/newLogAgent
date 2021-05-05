@@ -23,6 +23,7 @@ public class Logger {
             String signature = MethodUtils.getSignature(method);
             LogObjectProxy.setMethod(execTime, throwable, null,signature , args,ret,HookTypeEnum.SERVLET.name());
 
+            System.err.println("---------------------------");
             LogObjectProxy.doLog();
 
         }catch (Throwable e){

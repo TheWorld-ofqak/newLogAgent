@@ -33,7 +33,9 @@ public class HooksUtils {
 //        if (Collections.emptyMap(hooks.getAnnMethodHook().get(packageName))) {
 //            hooks.getAnnMethodHook().put(packageName, new ArrayList<String>());
 //        }
+        System.out.println(defaultHookList.toString());
         hooks.getAnnMethodHook().put(packageName,defaultHookList);
+
     }
 
 }
