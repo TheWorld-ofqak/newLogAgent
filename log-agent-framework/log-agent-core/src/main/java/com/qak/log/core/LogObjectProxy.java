@@ -31,6 +31,11 @@ public class LogObjectProxy {
 
     public static void setRequest(HttpServletRequest request) throws UnsupportedEncodingException {
 
+        //如果request为null 的话，说明是通用的hook
+        if(Objects.isNull(request)){
+            LogContext.get().setHttpRequest(null);
+            return;
+        }
         LogObject currLogObject = LogContext.get();
         HttpRequest httpRequest = currLogObject.getHttpRequest();
 
@@ -47,7 +52,7 @@ public class LogObjectProxy {
     }
 
 
-    public static void setMethod(Long execTime, Throwable error, HttpServletResponse response, String sign,Object[] args, Object returned, String type)  {
+    public static void setMethod(Long execTime, Throwable error, HttpServletResponse response, String sign,Object[] args, Object returned)  {
 
         Method method = LogContext.get().getMethod();
         String methodArgs = MethodUtils.getArgs(args);
@@ -56,14 +61,18 @@ public class LogObjectProxy {
         if(Objects.nonNull(response)){
             responseStatusCode = MethodUtils.getResponseStatus(response);
         }
-        //String responseBody = MethodUtils.getResponseBody(response);
 
         method.setMethodSignature(sign);
         method.setMethodArgs(methodArgs);
+        method.setReturned((String) returned);
         method.setExecTime(execTime);
         method.setResponseStatusCode(responseStatusCode);
         method.setMethodThrow(error);
-        method.setType(type);
+    }
+
+
+    public static  void setLogType(String type){
+        LogContext.get().setType(type);
     }
 
 

@@ -2,6 +2,7 @@ package io.promagent.internal.custom;
 
 import com.alibaba.fastjson.JSON;
 import io.promagent.agent.ClassLoaderCache;
+import io.promagent.internal.custom.CustomByteBuddyAdvice;
 import net.bytebuddy.agent.builder.AgentBuilder;
 import net.bytebuddy.matcher.ElementMatchers;
 
@@ -31,6 +32,7 @@ public class CustomHooksUtils {
     private static AgentBuilder applyAnnMethodHook(AgentBuilder agentBuilder, ClassLoaderCache classLoaderCache) {
 
         String annMethodHook = System.getProperty("agent.hooks.annMethodHook");
+        System.err.println("注解标注的hooks："+annMethodHook);
         if (annMethodHook == null) {
             return agentBuilder;
         }
@@ -42,6 +44,7 @@ public class CustomHooksUtils {
                         .transform(getForAdvice(classLoaderCache).advice(ElementMatchers.isAnnotatedWith(ElementMatchers.named(value)), CustomByteBuddyAdvice.class.getName()));
             }
         }
+        System.err.println("--------注解标注的切点字节码完成标记--------");
         return agentBuilder;
 
     }

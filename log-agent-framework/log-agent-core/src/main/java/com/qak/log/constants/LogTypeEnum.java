@@ -1,12 +1,12 @@
 package com.qak.log.constants;
 
-public enum HookTypeEnum {
+public enum LogTypeEnum {
 
     SERVLET(0, "Servlet: Http请求"),
     HTTPCLIENT(1, "Httpclient: Http请求"),
-    ASYNC(2, "异步请求"),
-    DNS(3, "DNS的请求"),
-    CUSTOM(4,"通用的请求");
+    ASYNC(2, "Async: 异步请求"),
+    DNS(3, "Dns: DNS的请求"),
+    CUSTOM(4,"Custom: 通用的方法");
 
 
     private Integer value;
@@ -29,7 +29,7 @@ public enum HookTypeEnum {
         this.desc = desc;
     }
 
-    HookTypeEnum(Integer value, String desc) {
+    LogTypeEnum(Integer value, String desc) {
         this.value = value;
         this.desc = desc;
     }

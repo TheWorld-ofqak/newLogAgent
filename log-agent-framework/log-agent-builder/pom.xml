@@ -27,7 +27,7 @@
             <artifactId>fastjson</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.promagent</groupId>
+            <groupId>com.log</groupId>
             <artifactId>log-agent-core</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>

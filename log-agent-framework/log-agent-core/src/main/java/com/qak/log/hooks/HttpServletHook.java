@@ -1,8 +1,8 @@
 package com.qak.log.hooks;
 
 
-import com.qak.log.constants.HookTypeEnum;
 
+import com.qak.log.constants.LogTypeEnum;
 import com.qak.log.core.LogObjectProxy;
 import com.qak.log.Logger;
 import com.qak.log.utils.MdcUtils;
@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import static com.qak.log.constants.MethodSignConstants.*;
+import static com.qak.log.core.LogObjectProxy.setMethod;
 
 @Hook(instruments = {
         "javax.servlet.Servlet",
@@ -72,8 +73,9 @@ public class HttpServletHook {
                 HttpServletRequest request = (HttpServletRequest) httpRequest;
                 HttpServletResponse response =   (HttpServletResponse)httpResponse;
 
+                LogObjectProxy.setLogType(LogTypeEnum.SERVLET.getDesc());
                 LogObjectProxy.setRequest(request);
-                LogObjectProxy.setMethod(execTime, t, response,signature,null,returned, HookTypeEnum.SERVLET.name());
+                LogObjectProxy.setMethod(execTime, t, response,signature,null,returned);
 
                 LogObjectProxy.doLog();
                 LogObjectProxy.clean();

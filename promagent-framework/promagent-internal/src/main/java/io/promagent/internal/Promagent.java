@@ -20,11 +20,8 @@ import static net.bytebuddy.matcher.ElementMatchers.not;
 import static net.bytebuddy.matcher.ElementMatchers.takesArgument;
 import static net.bytebuddy.matcher.ElementMatchers.takesArguments;
 
-import javax.management.ObjectName;
 import java.lang.instrument.Instrumentation;
-import java.lang.management.ManagementFactory;
 import java.nio.file.Path;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,7 +30,6 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import io.promagent.agent.ClassLoaderCache;
-import io.promagent.hookcontext.MetricsStore;
 import io.promagent.internal.HookMetadata.MethodSignature;
 //import io.promagent.internal.abandon.BuiltInServer;
 //import io.promagent.internal.abandon.jmx.Exporter;
@@ -57,14 +53,14 @@ public class Promagent {
 //            }
             ClassLoaderCache classLoaderCache = ClassLoaderCache.getInstance();
             List<Path> hookJars = classLoaderCache.getPerDeploymentJars();
-            SortedSet<HookMetadata> hookMetadata = new HookMetadataParser(hookJars).parse();
-          //MetricsStore metricsStore = new MetricsStore(registry);
+            SortedSet<HookMetadata> hookMetadata = new HookMetadataParser(hookJars).parse();// hook 的相关信息内容
+            //MetricsStore metricsStore = new MetricsStore(registry);
             // Delegator.init(hookMetadata, metricsStore, classLoaderCache);
 
             Delegator.init(hookMetadata, classLoaderCache);
             AgentBootstrap agentBootstrap = new AgentBootstrap();
             agentBootstrap.initSystemProperty();// 初始化自己的环境配置
-            printHookMetadata(hookMetadata);
+            printHookMetadata(hookMetadata);  // 打印 hook 的相关信息内容
 
             AgentBuilder agentBuilder = new AgentBuilder.Default();
             agentBuilder = CustomHooksUtils.applyHooks(agentBuilder,classLoaderCache); // 自己编写的 hook 横切
@@ -136,24 +132,24 @@ public class Promagent {
         }
         return methodMatcher;
     }
-
-    /**
-     * Parse a comma-separated list of key/value pairs. Example: "host=localhost,port=9300"
-     */
-    private static Map<String, String> parseCmdline(String agentArgs) {
-        Map<String, String> result = new HashMap<>();
-        if (agentArgs != null) {
-            for (String keyValueString : agentArgs.split(",")) {
-                String[] keyValue = keyValueString.split("=");
-                if (keyValue.length != 2) {
-                    throw new RuntimeException("Failed to parse command line arguments '" + agentArgs + "'. " +
-                            "Expecting a comma-separated list of key/value pairs, as for example 'host=localhost,port=9300'.");
-                }
-                result.put(keyValue[0], keyValue[1]);
-            }
-        }
-        return result;
-    }
+//
+//    /**
+//     * Parse a comma-separated list of key/value pairs. Example: "host=localhost,port=9300"
+//     */
+//    private static Map<String, String> parseCmdline(String agentArgs) {
+//        Map<String, String> result = new HashMap<>();
+//        if (agentArgs != null) {
+//            for (String keyValueString : agentArgs.split(",")) {
+//                String[] keyValue = keyValueString.split("=");
+//                if (keyValue.length != 2) {
+//                    throw new RuntimeException("Failed to parse command line arguments '" + agentArgs + "'. " +
+//                            "Expecting a comma-separated list of key/value pairs, as for example 'host=localhost,port=9300'.");
+//                }
+//                result.put(keyValue[0], keyValue[1]);
+//            }
+//        }
+//        return result;
+//    }
 
     private static void printHookMetadata(SortedSet<HookMetadata> hookMetadata) {
         System.out.println("Promagent instrumenting the following classes or interfaces:");

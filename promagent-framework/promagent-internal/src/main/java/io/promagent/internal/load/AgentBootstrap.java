@@ -24,6 +24,8 @@ public class AgentBootstrap {
             "org.springframework.web.bind.annotation.DeleteMapping",
             "org.springframework.web.bind.annotation.PutMapping");
 
+    private static String  hookPackage =  "com.*.*.controller";
+
 
 
     public  void initSystemProperty()  {
@@ -34,11 +36,13 @@ public class AgentBootstrap {
          HooksUtils.addControllerHook("defaultMethod", hooks);
          */
 
+        String packageName = "^" + hookPackage + ".*";
         Map<String, List<String>> annMethodMap = new HashMap<>();
-        annMethodMap.put("defaultMethod",controllerHook);
+
+        annMethodMap.put(packageName,controllerHook);
         String jsonString = JSONObject.toJSONString(annMethodMap);
 
-        System.err.println(jsonString);
+        System.err.println("注解增强的包："+packageName+jsonString);
         System.setProperty("agent.hooks.annMethodHook", jsonString);
 
     }
