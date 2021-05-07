@@ -1,7 +1,7 @@
 package com.qak.log;
 
 
-import com.qak.log.constants.HookTypeEnum;
+import com.qak.log.constants.LogTypeEnum;
 import com.qak.log.core.LogObjectProxy;
 import com.qak.log.utils.MethodUtils;
 
@@ -21,10 +21,11 @@ public class Logger {
         try {
 
             String signature = MethodUtils.getSignature(method);
-            LogObjectProxy.setMethod(execTime, throwable, null,signature , args,ret,HookTypeEnum.SERVLET.name());
-
-            System.err.println("---------------------------");
+            LogObjectProxy.setMethod(execTime, throwable, null,signature , args,ret);
+            LogObjectProxy.setLogType(LogTypeEnum.CUSTOM.getDesc());
+            LogObjectProxy.setRequest(null);
             LogObjectProxy.doLog();
+            LogObjectProxy.clean();
 
         }catch (Throwable e){
             error(e);

@@ -23,8 +23,8 @@ public class Method {
     private Throwable methodThrow;
     //执行消耗的时间
     private Long execTime;
-    //方法种类
-    private String type;
+
+
 
     public Method() {
 
@@ -79,14 +79,6 @@ public class Method {
         this.methodThrow = methodThrow;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     @Override
     public String toString() {
         return "Method{" +
@@ -96,7 +88,6 @@ public class Method {
                 ", returned='" + returned + '\'' +
                 ", methodThrow=" + methodThrow +
                 ", execTime=" + execTime +
-                ", type='" + type + '\'' +
                 '}';
     }
 }

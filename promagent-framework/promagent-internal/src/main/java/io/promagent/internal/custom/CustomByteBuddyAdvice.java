@@ -31,11 +31,10 @@ public class CustomByteBuddyAdvice {
 
            Class<?> loggerClass = null;
            try {
-
                loggerClass = ClassLoaderCache.getInstance().currentClassLoader().loadClass(callMethodPath);
                Method logMethod = loggerClass.getMethod("info",Long.class,Object.class,Method.class,Object[].class,Throwable.class);
                long exec = System.currentTimeMillis() - startTime ;
-               System.err.println("------------------------");
+
                logMethod.invoke(null,exec,returned,method,args,throwable);
            }catch (Throwable frameError){
 

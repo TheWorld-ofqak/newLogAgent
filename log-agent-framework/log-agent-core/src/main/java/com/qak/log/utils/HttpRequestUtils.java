@@ -29,14 +29,15 @@ public class HttpRequestUtils {
     public static Map<String, String> getHeaders(HttpServletRequest request) {
 
         Map<String, String> headerMap = new HashMap<>();
-        Enumeration<String> headers = request.getHeaderNames();
+//        Enumeration<String> headers = request.getHeaderNames();
+//
+//        while (headers.hasMoreElements()) {
+//
+//            String key = headers.nextElement();
+//            String value = request.getHeader(key);
+//            headerMap.put(key, value);
+//        }
 
-        while (headers.hasMoreElements()) {
-
-            String key = headers.nextElement();
-            String value = request.getHeader(key);
-            headerMap.put(key, value);
-        }
 
         return headerMap;
 

@@ -2,7 +2,7 @@ package com.qak.log.entity;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.qak.log.constants.HookTypeEnum;
+import com.qak.log.constants.LogTypeEnum;
 import com.qak.log.utils.MdcUtils;
 
 /**
@@ -13,13 +13,15 @@ import com.qak.log.utils.MdcUtils;
 public class LogObject {
 
 
-    private Long traceId ;
-    private String type = HookTypeEnum.SERVLET.getDesc();
+    private Long traceId ;                               // 追踪id
+    private String type = LogTypeEnum.CUSTOM.getDesc();  // 日志的类型
+    private HttpRequest httpRequest = new HttpRequest(); // http请求对象
+    private Method method = new Method();                // 方法对象
+    private JSONObject tempDate  = new JSONObject();     // 用于存放临时的数据
+    private String msg;                                  //
 
-    private HttpRequest httpRequest = new HttpRequest();
-    private Method method = new Method();
-    private JSONObject tempDate  = new JSONObject();
-    private String msg;
+
+
 
     public String getMsg() {
         return msg;
